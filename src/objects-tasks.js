@@ -155,8 +155,29 @@ function makeWord(lettersObject) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  let twentyFive = 0;
+  let fifty = 0;
+
+  return queue.every((score) => {
+    if (score === 25) {
+      twentyFive += 1;
+    } else if (score === 50) {
+      if (twentyFive === 0) return false;
+      twentyFive -= 1;
+      twentyFive += 1;
+    } else if (score === 100) {
+      if (fifty > 0 && twentyFive > 0) {
+        fifty -= 1;
+        twentyFive -= 1;
+      } else if (twentyFive >= 3) {
+        twentyFive -= 3;
+      } else {
+        return false;
+      }
+    }
+    return true;
+  });
 }
 
 /**
